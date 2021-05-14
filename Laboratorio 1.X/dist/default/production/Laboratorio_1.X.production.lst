@@ -1,0 +1,1342 @@
+
+
+Microchip MPLAB XC8 Assembler V2.31 build 20201012212115 
+                                                                                               Mon Mar 01 21:11:12 2021
+
+Microchip MPLAB XC8 C Compiler v2.31 (Free license) build 20201012212115 Og1 
+     1                           	processor	18F4550
+     2                           	fnconf	rparam,??,?,0
+     3                           	pagewidth 120
+     4                           	opt	flic
+     5                           	psect	cinit,global,reloc=2,class=CODE,delta=1
+     6                           	psect	bssCOMRAM,global,class=COMRAM,space=1,delta=1,lowdata,noexec
+     7                           	psect	cstackCOMRAM,global,class=COMRAM,space=1,delta=1,lowdata,noexec
+     8                           	psect	text0,global,reloc=2,class=CODE,delta=1
+     9                           	psect	text1,global,reloc=2,class=CODE,delta=1
+    10                           	psect	intsave_regs,global,class=BIGRAM,space=1,delta=1,noexec
+    11                           	psect	rparam,global,class=COMRAM,space=1,delta=1,noexec
+    12                           	psect	idloc,global,abs,ovrld,class=IDLOC,space=5,delta=1,noexec
+    13                           	psect	config,global,abs,ovrld,class=CONFIG,space=4,delta=1,noexec
+    14  0000                     
+    15                           ; Version 2.20
+    16                           ; Generated 12/02/2020 GMT
+    17                           ; 
+    18                           ; Copyright © 2020, Microchip Technology Inc. and its subsidiaries ("Microchip")
+    19                           ; All rights reserved.
+    20                           ; 
+    21                           ; This software is developed by Microchip Technology Inc. and its subsidiaries ("Microch
+      +                          ip").
+    22                           ; 
+    23                           ; Redistribution and use in source and binary forms, with or without modification, are
+    24                           ; permitted provided that the following conditions are met:
+    25                           ; 
+    26                           ;     1. Redistributions of source code must retain the above copyright notice, this lis
+      +                          t of
+    27                           ;        conditions and the following disclaimer.
+    28                           ; 
+    29                           ;     2. Redistributions in binary form must reproduce the above copyright notice, this 
+      +                          list
+    30                           ;        of conditions and the following disclaimer in the documentation and/or other
+    31                           ;        materials provided with the distribution.
+    32                           ; 
+    33                           ;     3. Microchip's name may not be used to endorse or promote products derived from th
+      +                          is
+    34                           ;        software without specific prior written permission.
+    35                           ; 
+    36                           ; THIS SOFTWARE IS PROVIDED BY MICROCHIP "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+    37                           ; INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS F
+      +                          OR
+    38                           ; PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL MICROCHIP BE LIABLE FOR ANY DIRECT, INDIREC
+      +                          T,
+    39                           ; INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING BUT NOT LIMITED TO
+    40                           ; PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA OR PROFITS; OR BUSINESS
+    41                           ; INTERRUPTION) HOWSOEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, ST
+      +                          RICT
+    42                           ; LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE U
+      +                          SE OF
+    43                           ; THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+    44                           ; 
+    45                           ; 
+    46                           ; Code-generator required, PIC18F4550 Definitions
+    47                           ; 
+    48                           ; SFR Addresses
+    49  0000                     _LATA	set	3977
+    50  0000                     _LATB	set	3978
+    51  0000                     _PORTAbits	set	3968
+    52  0000                     _LATD	set	3980
+    53  0000                     _TRISD	set	3989
+    54  0000                     _TRISCbits	set	3988
+    55  0000                     _TRISB	set	3987
+    56  0000                     _TRISA	set	3986
+    57  0000                     _ADCON1bits	set	4033
+    58                           
+    59                           ; #config settings
+    60                           
+    61                           	psect	cinit
+    62  007BA0                     __pcinit:
+    63                           	callstack 0
+    64  007BA0                     start_initialization:
+    65                           	callstack 0
+    66  007BA0                     __initialization:
+    67                           	callstack 0
+    68                           
+    69                           ; Clear objects allocated to COMRAM (2 bytes)
+    70  007BA0  6A02               	clrf	(__pbssCOMRAM+1)& (0+255),c
+    71  007BA2  6A01               	clrf	__pbssCOMRAM& (0+255),c
+    72  007BA4                     end_of_initialization:
+    73                           	callstack 0
+    74  007BA4                     __end_of__initialization:
+    75                           	callstack 0
+    76  007BA4  0100               	movlb	0
+    77  007BA6  EFDF  F03D         	goto	_main	;jump to C main() function
+    78                           
+    79                           	psect	bssCOMRAM
+    80  000001                     __pbssCOMRAM:
+    81                           	callstack 0
+    82  000001                     _valor:
+    83                           	callstack 0
+    84  000001                     	ds	2
+    85                           
+    86                           	psect	cstackCOMRAM
+    87  000003                     __pcstackCOMRAM:
+    88                           	callstack 0
+    89  000003                     ??_main:
+    90                           
+    91                           ; 1 bytes @ 0x0
+    92  000003                     	ds	2
+    93                           
+    94 ;;
+    95 ;;Main: autosize = 0, tempsize = 2, incstack = 0, save=0
+    96 ;;
+    97 ;; *************** function _main *****************
+    98 ;; Defined at:
+    99 ;;		line 27 in file "newmain.c"
+   100 ;; Parameters:    Size  Location     Type
+   101 ;;		None
+   102 ;; Auto vars:     Size  Location     Type
+   103 ;;		None
+   104 ;; Return value:  Size  Location     Type
+   105 ;;                  1    wreg      void 
+   106 ;; Registers used:
+   107 ;;		wreg, status,2, status,0, cstack
+   108 ;; Tracked objects:
+   109 ;;		On entry : 0/0
+   110 ;;		On exit  : 0/0
+   111 ;;		Unchanged: 0/0
+   112 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7
+   113 ;;      Params:         0       0       0       0       0       0       0       0       0
+   114 ;;      Locals:         0       0       0       0       0       0       0       0       0
+   115 ;;      Temps:          2       0       0       0       0       0       0       0       0
+   116 ;;      Totals:         2       0       0       0       0       0       0       0       0
+   117 ;;Total ram usage:        2 bytes
+   118 ;; Hardware stack levels required when called:    1
+   119 ;; This function calls:
+   120 ;;		_InitPort
+   121 ;; This function is called by:
+   122 ;;		Startup code after reset
+   123 ;; This function uses a non-reentrant model
+   124 ;;
+   125                           
+   126                           	psect	text0
+   127  007BBE                     __ptext0:
+   128                           	callstack 0
+   129  007BBE                     _main:
+   130                           	callstack 30
+   131  007BBE                     
+   132                           ;newmain.c: 29:     InitPort();
+   133  007BBE  ECD5  F03D         	call	_InitPort	;wreg free
+   134  007BC2                     
+   135                           ;newmain.c: 30:     LATD=0b00000000;
+   136  007BC2  0E00               	movlw	0
+   137  007BC4  6E8C               	movwf	140,c	;volatile
+   138  007BC6                     
+   139                           ;newmain.c: 32:     if (PORTAbits.RA2==1)
+   140  007BC6  A480               	btfss	128,2,c	;volatile
+   141  007BC8  EFE8  F03D         	goto	u11
+   142  007BCC  EFEA  F03D         	goto	u10
+   143  007BD0                     u11:
+   144  007BD0  EFEC  F03D         	goto	l723
+   145  007BD4                     u10:
+   146  007BD4                     
+   147                           ;newmain.c: 33:     {;newmain.c: 34:         valor++;
+   148  007BD4  4A01               	infsnz	_valor^0,f,c
+   149  007BD6  2A02               	incf	(_valor+1)^0,f,c
+   150  007BD8                     l723:
+   151                           
+   152                           ;newmain.c: 36:     if(valor==1)
+   153  007BD8  0401               	decf	_valor^0,w,c
+   154  007BDA  1002               	iorwf	(_valor+1)^0,w,c
+   155  007BDC  A4D8               	btfss	status,2,c
+   156  007BDE  EFF3  F03D         	goto	u21
+   157  007BE2  EFF5  F03D         	goto	u20
+   158  007BE6                     u21:
+   159  007BE6  EF29  F03E         	goto	l737
+   160  007BEA                     u20:
+   161  007BEA                     
+   162                           ;newmain.c: 37:     {;newmain.c: 38:         LATD=0b10000001;
+   163  007BEA  0E81               	movlw	129
+   164  007BEC  6E8C               	movwf	140,c	;volatile
+   165  007BEE                     
+   166                           ;newmain.c: 39:         _delay((unsigned long)((1000)*(4000000/4000.0)));
+   167  007BEE  0E06               	movlw	6
+   168  007BF0  6E04               	movwf	(??_main+1)^0,c
+   169  007BF2  0E13               	movlw	19
+   170  007BF4  6E03               	movwf	??_main^0,c
+   171  007BF6  0EAE               	movlw	174
+   172  007BF8                     u67:
+   173  007BF8  2EE8               	decfsz	wreg,f,c
+   174  007BFA  D7FE               	bra	u67
+   175  007BFC  2E03               	decfsz	??_main^0,f,c
+   176  007BFE  D7FC               	bra	u67
+   177  007C00  2E04               	decfsz	(??_main+1)^0,f,c
+   178  007C02  D7FA               	bra	u67
+   179  007C04                     
+   180                           ;newmain.c: 40:         LATD=0b01000010;
+   181  007C04  0E42               	movlw	66
+   182  007C06  6E8C               	movwf	140,c	;volatile
+   183                           
+   184                           ;newmain.c: 41:         _delay((unsigned long)((1000)*(4000000/4000.0)));
+   185  007C08  0E06               	movlw	6
+   186  007C0A  6E04               	movwf	(??_main+1)^0,c
+   187  007C0C  0E13               	movlw	19
+   188  007C0E  6E03               	movwf	??_main^0,c
+   189  007C10  0EAE               	movlw	174
+   190  007C12                     u77:
+   191  007C12  2EE8               	decfsz	wreg,f,c
+   192  007C14  D7FE               	bra	u77
+   193  007C16  2E03               	decfsz	??_main^0,f,c
+   194  007C18  D7FC               	bra	u77
+   195  007C1A  2E04               	decfsz	(??_main+1)^0,f,c
+   196  007C1C  D7FA               	bra	u77
+   197  007C1E                     
+   198                           ;newmain.c: 42:         LATD=0b00100100;
+   199  007C1E  0E24               	movlw	36
+   200  007C20  6E8C               	movwf	140,c	;volatile
+   201  007C22                     
+   202                           ;newmain.c: 43:         _delay((unsigned long)((1000)*(4000000/4000.0)));
+   203  007C22  0E06               	movlw	6
+   204  007C24  6E04               	movwf	(??_main+1)^0,c
+   205  007C26  0E13               	movlw	19
+   206  007C28  6E03               	movwf	??_main^0,c
+   207  007C2A  0EAE               	movlw	174
+   208  007C2C                     u87:
+   209  007C2C  2EE8               	decfsz	wreg,f,c
+   210  007C2E  D7FE               	bra	u87
+   211  007C30  2E03               	decfsz	??_main^0,f,c
+   212  007C32  D7FC               	bra	u87
+   213  007C34  2E04               	decfsz	(??_main+1)^0,f,c
+   214  007C36  D7FA               	bra	u87
+   215                           
+   216                           ;newmain.c: 44:         LATD=0b00011000;
+   217  007C38  0E18               	movlw	24
+   218  007C3A  6E8C               	movwf	140,c	;volatile
+   219  007C3C                     
+   220                           ;newmain.c: 45:         _delay((unsigned long)((1000)*(4000000/4000.0)));
+   221  007C3C  0E06               	movlw	6
+   222  007C3E  6E04               	movwf	(??_main+1)^0,c
+   223  007C40  0E13               	movlw	19
+   224  007C42  6E03               	movwf	??_main^0,c
+   225  007C44  0EAE               	movlw	174
+   226  007C46                     u97:
+   227  007C46  2EE8               	decfsz	wreg,f,c
+   228  007C48  D7FE               	bra	u97
+   229  007C4A  2E03               	decfsz	??_main^0,f,c
+   230  007C4C  D7FC               	bra	u97
+   231  007C4E  2E04               	decfsz	(??_main+1)^0,f,c
+   232  007C50  D7FA               	bra	u97
+   233  007C52                     l737:
+   234                           
+   235                           ;newmain.c: 47:     if(valor==2)
+   236  007C52  0E02               	movlw	2
+   237  007C54  1801               	xorwf	_valor^0,w,c
+   238  007C56  1002               	iorwf	(_valor+1)^0,w,c
+   239  007C58  A4D8               	btfss	status,2,c
+   240  007C5A  EF31  F03E         	goto	u31
+   241  007C5E  EF33  F03E         	goto	u30
+   242  007C62                     u31:
+   243  007C62  EF02  F03F         	goto	l783
+   244  007C66                     u30:
+   245  007C66                     
+   246                           ;newmain.c: 48:     {;newmain.c: 49:         LATD=0b00000000;
+   247  007C66  0E00               	movlw	0
+   248  007C68  6E8C               	movwf	140,c	;volatile
+   249  007C6A                     
+   250                           ;newmain.c: 50:         _delay((unsigned long)((1000)*(4000000/4000.0)));
+   251  007C6A  0E06               	movlw	6
+   252  007C6C  6E04               	movwf	(??_main+1)^0,c
+   253  007C6E  0E13               	movlw	19
+   254  007C70  6E03               	movwf	??_main^0,c
+   255  007C72  0EAE               	movlw	174
+   256  007C74                     u107:
+   257  007C74  2EE8               	decfsz	wreg,f,c
+   258  007C76  D7FE               	bra	u107
+   259  007C78  2E03               	decfsz	??_main^0,f,c
+   260  007C7A  D7FC               	bra	u107
+   261  007C7C  2E04               	decfsz	(??_main+1)^0,f,c
+   262  007C7E  D7FA               	bra	u107
+   263  007C80                     
+   264                           ;newmain.c: 51:         LATB=0b00000001;
+   265  007C80  0E01               	movlw	1
+   266  007C82  6E8A               	movwf	138,c	;volatile
+   267                           
+   268                           ;newmain.c: 52:         _delay((unsigned long)((3000)*(4000000/4000.0)));
+   269  007C84  0E10               	movlw	16
+   270  007C86  6E04               	movwf	(??_main+1)^0,c
+   271  007C88  0E39               	movlw	57
+   272  007C8A  6E03               	movwf	??_main^0,c
+   273  007C8C  0E0E               	movlw	14
+   274  007C8E                     u117:
+   275  007C8E  2EE8               	decfsz	wreg,f,c
+   276  007C90  D7FE               	bra	u117
+   277  007C92  2E03               	decfsz	??_main^0,f,c
+   278  007C94  D7FC               	bra	u117
+   279  007C96  2E04               	decfsz	(??_main+1)^0,f,c
+   280  007C98  D7FA               	bra	u117
+   281  007C9A                     
+   282                           ;newmain.c: 53:         LATB=0b00000011;
+   283  007C9A  0E03               	movlw	3
+   284  007C9C  6E8A               	movwf	138,c	;volatile
+   285  007C9E                     
+   286                           ;newmain.c: 54:         _delay((unsigned long)((3000)*(4000000/4000.0)));
+   287  007C9E  0E10               	movlw	16
+   288  007CA0  6E04               	movwf	(??_main+1)^0,c
+   289  007CA2  0E39               	movlw	57
+   290  007CA4  6E03               	movwf	??_main^0,c
+   291  007CA6  0E0E               	movlw	14
+   292  007CA8                     u127:
+   293  007CA8  2EE8               	decfsz	wreg,f,c
+   294  007CAA  D7FE               	bra	u127
+   295  007CAC  2E03               	decfsz	??_main^0,f,c
+   296  007CAE  D7FC               	bra	u127
+   297  007CB0  2E04               	decfsz	(??_main+1)^0,f,c
+   298  007CB2  D7FA               	bra	u127
+   299                           
+   300                           ;newmain.c: 55:         LATB=0b00000111;
+   301  007CB4  0E07               	movlw	7
+   302  007CB6  6E8A               	movwf	138,c	;volatile
+   303  007CB8                     
+   304                           ;newmain.c: 56:         _delay((unsigned long)((3000)*(4000000/4000.0)));
+   305  007CB8  0E10               	movlw	16
+   306  007CBA  6E04               	movwf	(??_main+1)^0,c
+   307  007CBC  0E39               	movlw	57
+   308  007CBE  6E03               	movwf	??_main^0,c
+   309  007CC0  0E0E               	movlw	14
+   310  007CC2                     u137:
+   311  007CC2  2EE8               	decfsz	wreg,f,c
+   312  007CC4  D7FE               	bra	u137
+   313  007CC6  2E03               	decfsz	??_main^0,f,c
+   314  007CC8  D7FC               	bra	u137
+   315  007CCA  2E04               	decfsz	(??_main+1)^0,f,c
+   316  007CCC  D7FA               	bra	u137
+   317  007CCE                     
+   318                           ;newmain.c: 57:         LATB=0b00001111;
+   319  007CCE  0E0F               	movlw	15
+   320  007CD0  6E8A               	movwf	138,c	;volatile
+   321                           
+   322                           ;newmain.c: 58:         _delay((unsigned long)((3000)*(4000000/4000.0)));
+   323  007CD2  0E10               	movlw	16
+   324  007CD4  6E04               	movwf	(??_main+1)^0,c
+   325  007CD6  0E39               	movlw	57
+   326  007CD8  6E03               	movwf	??_main^0,c
+   327  007CDA  0E0E               	movlw	14
+   328  007CDC                     u147:
+   329  007CDC  2EE8               	decfsz	wreg,f,c
+   330  007CDE  D7FE               	bra	u147
+   331  007CE0  2E03               	decfsz	??_main^0,f,c
+   332  007CE2  D7FC               	bra	u147
+   333  007CE4  2E04               	decfsz	(??_main+1)^0,f,c
+   334  007CE6  D7FA               	bra	u147
+   335  007CE8                     
+   336                           ;newmain.c: 59:         LATB=0b00011111;
+   337  007CE8  0E1F               	movlw	31
+   338  007CEA  6E8A               	movwf	138,c	;volatile
+   339  007CEC                     
+   340                           ;newmain.c: 60:         _delay((unsigned long)((3000)*(4000000/4000.0)));
+   341  007CEC  0E10               	movlw	16
+   342  007CEE  6E04               	movwf	(??_main+1)^0,c
+   343  007CF0  0E39               	movlw	57
+   344  007CF2  6E03               	movwf	??_main^0,c
+   345  007CF4  0E0E               	movlw	14
+   346  007CF6                     u157:
+   347  007CF6  2EE8               	decfsz	wreg,f,c
+   348  007CF8  D7FE               	bra	u157
+   349  007CFA  2E03               	decfsz	??_main^0,f,c
+   350  007CFC  D7FC               	bra	u157
+   351  007CFE  2E04               	decfsz	(??_main+1)^0,f,c
+   352  007D00  D7FA               	bra	u157
+   353                           
+   354                           ;newmain.c: 61:         LATB=0b00111111;
+   355  007D02  0E3F               	movlw	63
+   356  007D04  6E8A               	movwf	138,c	;volatile
+   357  007D06                     
+   358                           ;newmain.c: 62:         _delay((unsigned long)((3000)*(4000000/4000.0)));
+   359  007D06  0E10               	movlw	16
+   360  007D08  6E04               	movwf	(??_main+1)^0,c
+   361  007D0A  0E39               	movlw	57
+   362  007D0C  6E03               	movwf	??_main^0,c
+   363  007D0E  0E0E               	movlw	14
+   364  007D10                     u167:
+   365  007D10  2EE8               	decfsz	wreg,f,c
+   366  007D12  D7FE               	bra	u167
+   367  007D14  2E03               	decfsz	??_main^0,f,c
+   368  007D16  D7FC               	bra	u167
+   369  007D18  2E04               	decfsz	(??_main+1)^0,f,c
+   370  007D1A  D7FA               	bra	u167
+   371  007D1C                     
+   372                           ;newmain.c: 63:         LATB=0b01111111;
+   373  007D1C  0E7F               	movlw	127
+   374  007D1E  6E8A               	movwf	138,c	;volatile
+   375                           
+   376                           ;newmain.c: 64:         _delay((unsigned long)((3000)*(4000000/4000.0)));
+   377  007D20  0E10               	movlw	16
+   378  007D22  6E04               	movwf	(??_main+1)^0,c
+   379  007D24  0E39               	movlw	57
+   380  007D26  6E03               	movwf	??_main^0,c
+   381  007D28  0E0E               	movlw	14
+   382  007D2A                     u177:
+   383  007D2A  2EE8               	decfsz	wreg,f,c
+   384  007D2C  D7FE               	bra	u177
+   385  007D2E  2E03               	decfsz	??_main^0,f,c
+   386  007D30  D7FC               	bra	u177
+   387  007D32  2E04               	decfsz	(??_main+1)^0,f,c
+   388  007D34  D7FA               	bra	u177
+   389  007D36                     
+   390                           ;newmain.c: 65:         LATB=0b11111111;
+   391  007D36  688A               	setf	138,c	;volatile
+   392                           
+   393                           ;newmain.c: 66:         _delay((unsigned long)((3000)*(4000000/4000.0)));
+   394  007D38  0E10               	movlw	16
+   395  007D3A  6E04               	movwf	(??_main+1)^0,c
+   396  007D3C  0E39               	movlw	57
+   397  007D3E  6E03               	movwf	??_main^0,c
+   398  007D40  0E0E               	movlw	14
+   399  007D42                     u187:
+   400  007D42  2EE8               	decfsz	wreg,f,c
+   401  007D44  D7FE               	bra	u187
+   402  007D46  2E03               	decfsz	??_main^0,f,c
+   403  007D48  D7FC               	bra	u187
+   404  007D4A  2E04               	decfsz	(??_main+1)^0,f,c
+   405  007D4C  D7FA               	bra	u187
+   406  007D4E                     
+   407                           ;newmain.c: 67:         LATB=0b11111110;
+   408  007D4E  0EFE               	movlw	254
+   409  007D50  6E8A               	movwf	138,c	;volatile
+   410  007D52                     
+   411                           ;newmain.c: 68:         _delay((unsigned long)((3000)*(4000000/4000.0)));
+   412  007D52  0E10               	movlw	16
+   413  007D54  6E04               	movwf	(??_main+1)^0,c
+   414  007D56  0E39               	movlw	57
+   415  007D58  6E03               	movwf	??_main^0,c
+   416  007D5A  0E0E               	movlw	14
+   417  007D5C                     u197:
+   418  007D5C  2EE8               	decfsz	wreg,f,c
+   419  007D5E  D7FE               	bra	u197
+   420  007D60  2E03               	decfsz	??_main^0,f,c
+   421  007D62  D7FC               	bra	u197
+   422  007D64  2E04               	decfsz	(??_main+1)^0,f,c
+   423  007D66  D7FA               	bra	u197
+   424                           
+   425                           ;newmain.c: 69:         LATB=0b11111100;
+   426  007D68  0EFC               	movlw	252
+   427  007D6A  6E8A               	movwf	138,c	;volatile
+   428  007D6C                     
+   429                           ;newmain.c: 70:         _delay((unsigned long)((3000)*(4000000/4000.0)));
+   430  007D6C  0E10               	movlw	16
+   431  007D6E  6E04               	movwf	(??_main+1)^0,c
+   432  007D70  0E39               	movlw	57
+   433  007D72  6E03               	movwf	??_main^0,c
+   434  007D74  0E0E               	movlw	14
+   435  007D76                     u207:
+   436  007D76  2EE8               	decfsz	wreg,f,c
+   437  007D78  D7FE               	bra	u207
+   438  007D7A  2E03               	decfsz	??_main^0,f,c
+   439  007D7C  D7FC               	bra	u207
+   440  007D7E  2E04               	decfsz	(??_main+1)^0,f,c
+   441  007D80  D7FA               	bra	u207
+   442  007D82                     
+   443                           ;newmain.c: 71:         LATB=0b11111000;
+   444  007D82  0EF8               	movlw	248
+   445  007D84  6E8A               	movwf	138,c	;volatile
+   446                           
+   447                           ;newmain.c: 72:         _delay((unsigned long)((3000)*(4000000/4000.0)));
+   448  007D86  0E10               	movlw	16
+   449  007D88  6E04               	movwf	(??_main+1)^0,c
+   450  007D8A  0E39               	movlw	57
+   451  007D8C  6E03               	movwf	??_main^0,c
+   452  007D8E  0E0E               	movlw	14
+   453  007D90                     u217:
+   454  007D90  2EE8               	decfsz	wreg,f,c
+   455  007D92  D7FE               	bra	u217
+   456  007D94  2E03               	decfsz	??_main^0,f,c
+   457  007D96  D7FC               	bra	u217
+   458  007D98  2E04               	decfsz	(??_main+1)^0,f,c
+   459  007D9A  D7FA               	bra	u217
+   460  007D9C                     
+   461                           ;newmain.c: 73:         LATB=0b11110000;
+   462  007D9C  0EF0               	movlw	240
+   463  007D9E  6E8A               	movwf	138,c	;volatile
+   464  007DA0                     
+   465                           ;newmain.c: 74:         _delay((unsigned long)((3000)*(4000000/4000.0)));
+   466  007DA0  0E10               	movlw	16
+   467  007DA2  6E04               	movwf	(??_main+1)^0,c
+   468  007DA4  0E39               	movlw	57
+   469  007DA6  6E03               	movwf	??_main^0,c
+   470  007DA8  0E0E               	movlw	14
+   471  007DAA                     u227:
+   472  007DAA  2EE8               	decfsz	wreg,f,c
+   473  007DAC  D7FE               	bra	u227
+   474  007DAE  2E03               	decfsz	??_main^0,f,c
+   475  007DB0  D7FC               	bra	u227
+   476  007DB2  2E04               	decfsz	(??_main+1)^0,f,c
+   477  007DB4  D7FA               	bra	u227
+   478                           
+   479                           ;newmain.c: 75:         LATB=0b11100000;
+   480  007DB6  0EE0               	movlw	224
+   481  007DB8  6E8A               	movwf	138,c	;volatile
+   482  007DBA                     
+   483                           ;newmain.c: 76:         _delay((unsigned long)((3000)*(4000000/4000.0)));
+   484  007DBA  0E10               	movlw	16
+   485  007DBC  6E04               	movwf	(??_main+1)^0,c
+   486  007DBE  0E39               	movlw	57
+   487  007DC0  6E03               	movwf	??_main^0,c
+   488  007DC2  0E0E               	movlw	14
+   489  007DC4                     u237:
+   490  007DC4  2EE8               	decfsz	wreg,f,c
+   491  007DC6  D7FE               	bra	u237
+   492  007DC8  2E03               	decfsz	??_main^0,f,c
+   493  007DCA  D7FC               	bra	u237
+   494  007DCC  2E04               	decfsz	(??_main+1)^0,f,c
+   495  007DCE  D7FA               	bra	u237
+   496  007DD0                     
+   497                           ;newmain.c: 77:         LATB=0b11000000;
+   498  007DD0  0EC0               	movlw	192
+   499  007DD2  6E8A               	movwf	138,c	;volatile
+   500                           
+   501                           ;newmain.c: 78:         _delay((unsigned long)((3000)*(4000000/4000.0)));
+   502  007DD4  0E10               	movlw	16
+   503  007DD6  6E04               	movwf	(??_main+1)^0,c
+   504  007DD8  0E39               	movlw	57
+   505  007DDA  6E03               	movwf	??_main^0,c
+   506  007DDC  0E0E               	movlw	14
+   507  007DDE                     u247:
+   508  007DDE  2EE8               	decfsz	wreg,f,c
+   509  007DE0  D7FE               	bra	u247
+   510  007DE2  2E03               	decfsz	??_main^0,f,c
+   511  007DE4  D7FC               	bra	u247
+   512  007DE6  2E04               	decfsz	(??_main+1)^0,f,c
+   513  007DE8  D7FA               	bra	u247
+   514  007DEA                     
+   515                           ;newmain.c: 79:         LATB=0b10000000;
+   516  007DEA  0E80               	movlw	128
+   517  007DEC  6E8A               	movwf	138,c	;volatile
+   518  007DEE                     
+   519                           ;newmain.c: 80:         _delay((unsigned long)((3000)*(4000000/4000.0)));
+   520  007DEE  0E10               	movlw	16
+   521  007DF0  6E04               	movwf	(??_main+1)^0,c
+   522  007DF2  0E39               	movlw	57
+   523  007DF4  6E03               	movwf	??_main^0,c
+   524  007DF6  0E0E               	movlw	14
+   525  007DF8                     u257:
+   526  007DF8  2EE8               	decfsz	wreg,f,c
+   527  007DFA  D7FE               	bra	u257
+   528  007DFC  2E03               	decfsz	??_main^0,f,c
+   529  007DFE  D7FC               	bra	u257
+   530  007E00  2E04               	decfsz	(??_main+1)^0,f,c
+   531  007E02  D7FA               	bra	u257
+   532  007E04                     l783:
+   533                           
+   534                           ;newmain.c: 82:     if(valor==3)
+   535  007E04  0E03               	movlw	3
+   536  007E06  1801               	xorwf	_valor^0,w,c
+   537  007E08  1002               	iorwf	(_valor+1)^0,w,c
+   538  007E0A  A4D8               	btfss	status,2,c
+   539  007E0C  EF0A  F03F         	goto	u41
+   540  007E10  EF0C  F03F         	goto	u40
+   541  007E14                     u41:
+   542  007E14  EFDC  F03F         	goto	l829
+   543  007E18                     u40:
+   544  007E18                     
+   545                           ;newmain.c: 83:     {;newmain.c: 84:         LATA=0b000000;
+   546  007E18  0E00               	movlw	0
+   547  007E1A  6E89               	movwf	137,c	;volatile
+   548  007E1C                     
+   549                           ;newmain.c: 85:         _delay((unsigned long)((1000)*(4000000/4000.0)));
+   550  007E1C  0E06               	movlw	6
+   551  007E1E  6E04               	movwf	(??_main+1)^0,c
+   552  007E20  0E13               	movlw	19
+   553  007E22  6E03               	movwf	??_main^0,c
+   554  007E24  0EAE               	movlw	174
+   555  007E26                     u267:
+   556  007E26  2EE8               	decfsz	wreg,f,c
+   557  007E28  D7FE               	bra	u267
+   558  007E2A  2E03               	decfsz	??_main^0,f,c
+   559  007E2C  D7FC               	bra	u267
+   560  007E2E  2E04               	decfsz	(??_main+1)^0,f,c
+   561  007E30  D7FA               	bra	u267
+   562  007E32                     
+   563                           ;newmain.c: 86:         LATA=0b0000001;
+   564  007E32  0E01               	movlw	1
+   565  007E34  6E89               	movwf	137,c	;volatile
+   566                           
+   567                           ;newmain.c: 87:         _delay((unsigned long)((1000)*(4000000/4000.0)));
+   568  007E36  0E06               	movlw	6
+   569  007E38  6E04               	movwf	(??_main+1)^0,c
+   570  007E3A  0E13               	movlw	19
+   571  007E3C  6E03               	movwf	??_main^0,c
+   572  007E3E  0EAE               	movlw	174
+   573  007E40                     u277:
+   574  007E40  2EE8               	decfsz	wreg,f,c
+   575  007E42  D7FE               	bra	u277
+   576  007E44  2E03               	decfsz	??_main^0,f,c
+   577  007E46  D7FC               	bra	u277
+   578  007E48  2E04               	decfsz	(??_main+1)^0,f,c
+   579  007E4A  D7FA               	bra	u277
+   580  007E4C                     
+   581                           ;newmain.c: 88:         LATA=0b0001001;
+   582  007E4C  0E09               	movlw	9
+   583  007E4E  6E89               	movwf	137,c	;volatile
+   584  007E50                     
+   585                           ;newmain.c: 89:         _delay((unsigned long)((1000)*(4000000/4000.0)));
+   586  007E50  0E06               	movlw	6
+   587  007E52  6E04               	movwf	(??_main+1)^0,c
+   588  007E54  0E13               	movlw	19
+   589  007E56  6E03               	movwf	??_main^0,c
+   590  007E58  0EAE               	movlw	174
+   591  007E5A                     u287:
+   592  007E5A  2EE8               	decfsz	wreg,f,c
+   593  007E5C  D7FE               	bra	u287
+   594  007E5E  2E03               	decfsz	??_main^0,f,c
+   595  007E60  D7FC               	bra	u287
+   596  007E62  2E04               	decfsz	(??_main+1)^0,f,c
+   597  007E64  D7FA               	bra	u287
+   598                           
+   599                           ;newmain.c: 90:         LATA=0b0001000;
+   600  007E66  0E08               	movlw	8
+   601  007E68  6E89               	movwf	137,c	;volatile
+   602  007E6A                     
+   603                           ;newmain.c: 91:         _delay((unsigned long)((1000)*(4000000/4000.0)));
+   604  007E6A  0E06               	movlw	6
+   605  007E6C  6E04               	movwf	(??_main+1)^0,c
+   606  007E6E  0E13               	movlw	19
+   607  007E70  6E03               	movwf	??_main^0,c
+   608  007E72  0EAE               	movlw	174
+   609  007E74                     u297:
+   610  007E74  2EE8               	decfsz	wreg,f,c
+   611  007E76  D7FE               	bra	u297
+   612  007E78  2E03               	decfsz	??_main^0,f,c
+   613  007E7A  D7FC               	bra	u297
+   614  007E7C  2E04               	decfsz	(??_main+1)^0,f,c
+   615  007E7E  D7FA               	bra	u297
+   616  007E80                     
+   617                           ;newmain.c: 92:         LATA=0b0011000;
+   618  007E80  0E18               	movlw	24
+   619  007E82  6E89               	movwf	137,c	;volatile
+   620                           
+   621                           ;newmain.c: 93:         _delay((unsigned long)((1000)*(4000000/4000.0)));
+   622  007E84  0E06               	movlw	6
+   623  007E86  6E04               	movwf	(??_main+1)^0,c
+   624  007E88  0E13               	movlw	19
+   625  007E8A  6E03               	movwf	??_main^0,c
+   626  007E8C  0EAE               	movlw	174
+   627  007E8E                     u307:
+   628  007E8E  2EE8               	decfsz	wreg,f,c
+   629  007E90  D7FE               	bra	u307
+   630  007E92  2E03               	decfsz	??_main^0,f,c
+   631  007E94  D7FC               	bra	u307
+   632  007E96  2E04               	decfsz	(??_main+1)^0,f,c
+   633  007E98  D7FA               	bra	u307
+   634  007E9A                     
+   635                           ;newmain.c: 94:         LATA=0b0011001;
+   636  007E9A  0E19               	movlw	25
+   637  007E9C  6E89               	movwf	137,c	;volatile
+   638  007E9E                     
+   639                           ;newmain.c: 95:         _delay((unsigned long)((1000)*(4000000/4000.0)));
+   640  007E9E  0E06               	movlw	6
+   641  007EA0  6E04               	movwf	(??_main+1)^0,c
+   642  007EA2  0E13               	movlw	19
+   643  007EA4  6E03               	movwf	??_main^0,c
+   644  007EA6  0EAE               	movlw	174
+   645  007EA8                     u317:
+   646  007EA8  2EE8               	decfsz	wreg,f,c
+   647  007EAA  D7FE               	bra	u317
+   648  007EAC  2E03               	decfsz	??_main^0,f,c
+   649  007EAE  D7FC               	bra	u317
+   650  007EB0  2E04               	decfsz	(??_main+1)^0,f,c
+   651  007EB2  D7FA               	bra	u317
+   652                           
+   653                           ;newmain.c: 96:         LATA=0b0010001;
+   654  007EB4  0E11               	movlw	17
+   655  007EB6  6E89               	movwf	137,c	;volatile
+   656  007EB8                     
+   657                           ;newmain.c: 97:         _delay((unsigned long)((1000)*(4000000/4000.0)));
+   658  007EB8  0E06               	movlw	6
+   659  007EBA  6E04               	movwf	(??_main+1)^0,c
+   660  007EBC  0E13               	movlw	19
+   661  007EBE  6E03               	movwf	??_main^0,c
+   662  007EC0  0EAE               	movlw	174
+   663  007EC2                     u327:
+   664  007EC2  2EE8               	decfsz	wreg,f,c
+   665  007EC4  D7FE               	bra	u327
+   666  007EC6  2E03               	decfsz	??_main^0,f,c
+   667  007EC8  D7FC               	bra	u327
+   668  007ECA  2E04               	decfsz	(??_main+1)^0,f,c
+   669  007ECC  D7FA               	bra	u327
+   670  007ECE                     
+   671                           ;newmain.c: 98:         LATA=0b0010000;
+   672  007ECE  0E10               	movlw	16
+   673  007ED0  6E89               	movwf	137,c	;volatile
+   674                           
+   675                           ;newmain.c: 99:         _delay((unsigned long)((1000)*(4000000/4000.0)));
+   676  007ED2  0E06               	movlw	6
+   677  007ED4  6E04               	movwf	(??_main+1)^0,c
+   678  007ED6  0E13               	movlw	19
+   679  007ED8  6E03               	movwf	??_main^0,c
+   680  007EDA  0EAE               	movlw	174
+   681  007EDC                     u337:
+   682  007EDC  2EE8               	decfsz	wreg,f,c
+   683  007EDE  D7FE               	bra	u337
+   684  007EE0  2E03               	decfsz	??_main^0,f,c
+   685  007EE2  D7FC               	bra	u337
+   686  007EE4  2E04               	decfsz	(??_main+1)^0,f,c
+   687  007EE6  D7FA               	bra	u337
+   688  007EE8                     
+   689                           ;newmain.c: 100:         LATA=0b0110000;
+   690  007EE8  0E30               	movlw	48
+   691  007EEA  6E89               	movwf	137,c	;volatile
+   692  007EEC                     
+   693                           ;newmain.c: 101:         _delay((unsigned long)((1000)*(4000000/4000.0)));
+   694  007EEC  0E06               	movlw	6
+   695  007EEE  6E04               	movwf	(??_main+1)^0,c
+   696  007EF0  0E13               	movlw	19
+   697  007EF2  6E03               	movwf	??_main^0,c
+   698  007EF4  0EAE               	movlw	174
+   699  007EF6                     u347:
+   700  007EF6  2EE8               	decfsz	wreg,f,c
+   701  007EF8  D7FE               	bra	u347
+   702  007EFA  2E03               	decfsz	??_main^0,f,c
+   703  007EFC  D7FC               	bra	u347
+   704  007EFE  2E04               	decfsz	(??_main+1)^0,f,c
+   705  007F00  D7FA               	bra	u347
+   706                           
+   707                           ;newmain.c: 102:         LATA=0b0110001;
+   708  007F02  0E31               	movlw	49
+   709  007F04  6E89               	movwf	137,c	;volatile
+   710  007F06                     
+   711                           ;newmain.c: 103:         _delay((unsigned long)((1000)*(4000000/4000.0)));
+   712  007F06  0E06               	movlw	6
+   713  007F08  6E04               	movwf	(??_main+1)^0,c
+   714  007F0A  0E13               	movlw	19
+   715  007F0C  6E03               	movwf	??_main^0,c
+   716  007F0E  0EAE               	movlw	174
+   717  007F10                     u357:
+   718  007F10  2EE8               	decfsz	wreg,f,c
+   719  007F12  D7FE               	bra	u357
+   720  007F14  2E03               	decfsz	??_main^0,f,c
+   721  007F16  D7FC               	bra	u357
+   722  007F18  2E04               	decfsz	(??_main+1)^0,f,c
+   723  007F1A  D7FA               	bra	u357
+   724  007F1C                     
+   725                           ;newmain.c: 104:         LATA=0b0111001;
+   726  007F1C  0E39               	movlw	57
+   727  007F1E  6E89               	movwf	137,c	;volatile
+   728                           
+   729                           ;newmain.c: 105:         _delay((unsigned long)((1000)*(4000000/4000.0)));
+   730  007F20  0E06               	movlw	6
+   731  007F22  6E04               	movwf	(??_main+1)^0,c
+   732  007F24  0E13               	movlw	19
+   733  007F26  6E03               	movwf	??_main^0,c
+   734  007F28  0EAE               	movlw	174
+   735  007F2A                     u367:
+   736  007F2A  2EE8               	decfsz	wreg,f,c
+   737  007F2C  D7FE               	bra	u367
+   738  007F2E  2E03               	decfsz	??_main^0,f,c
+   739  007F30  D7FC               	bra	u367
+   740  007F32  2E04               	decfsz	(??_main+1)^0,f,c
+   741  007F34  D7FA               	bra	u367
+   742  007F36                     
+   743                           ;newmain.c: 106:         LATA=0b0111000;
+   744  007F36  0E38               	movlw	56
+   745  007F38  6E89               	movwf	137,c	;volatile
+   746  007F3A                     
+   747                           ;newmain.c: 107:         _delay((unsigned long)((1000)*(4000000/4000.0)));
+   748  007F3A  0E06               	movlw	6
+   749  007F3C  6E04               	movwf	(??_main+1)^0,c
+   750  007F3E  0E13               	movlw	19
+   751  007F40  6E03               	movwf	??_main^0,c
+   752  007F42  0EAE               	movlw	174
+   753  007F44                     u377:
+   754  007F44  2EE8               	decfsz	wreg,f,c
+   755  007F46  D7FE               	bra	u377
+   756  007F48  2E03               	decfsz	??_main^0,f,c
+   757  007F4A  D7FC               	bra	u377
+   758  007F4C  2E04               	decfsz	(??_main+1)^0,f,c
+   759  007F4E  D7FA               	bra	u377
+   760                           
+   761                           ;newmain.c: 108:         LATA=0b0101000;
+   762  007F50  0E28               	movlw	40
+   763  007F52  6E89               	movwf	137,c	;volatile
+   764  007F54                     
+   765                           ;newmain.c: 109:         _delay((unsigned long)((1000)*(4000000/4000.0)));
+   766  007F54  0E06               	movlw	6
+   767  007F56  6E04               	movwf	(??_main+1)^0,c
+   768  007F58  0E13               	movlw	19
+   769  007F5A  6E03               	movwf	??_main^0,c
+   770  007F5C  0EAE               	movlw	174
+   771  007F5E                     u387:
+   772  007F5E  2EE8               	decfsz	wreg,f,c
+   773  007F60  D7FE               	bra	u387
+   774  007F62  2E03               	decfsz	??_main^0,f,c
+   775  007F64  D7FC               	bra	u387
+   776  007F66  2E04               	decfsz	(??_main+1)^0,f,c
+   777  007F68  D7FA               	bra	u387
+   778  007F6A                     
+   779                           ;newmain.c: 110:         LATA=0b0101001;
+   780  007F6A  0E29               	movlw	41
+   781  007F6C  6E89               	movwf	137,c	;volatile
+   782                           
+   783                           ;newmain.c: 111:         _delay((unsigned long)((1000)*(4000000/4000.0)));
+   784  007F6E  0E06               	movlw	6
+   785  007F70  6E04               	movwf	(??_main+1)^0,c
+   786  007F72  0E13               	movlw	19
+   787  007F74  6E03               	movwf	??_main^0,c
+   788  007F76  0EAE               	movlw	174
+   789  007F78                     u397:
+   790  007F78  2EE8               	decfsz	wreg,f,c
+   791  007F7A  D7FE               	bra	u397
+   792  007F7C  2E03               	decfsz	??_main^0,f,c
+   793  007F7E  D7FC               	bra	u397
+   794  007F80  2E04               	decfsz	(??_main+1)^0,f,c
+   795  007F82  D7FA               	bra	u397
+   796  007F84                     
+   797                           ;newmain.c: 112:         LATA=0b0100001;
+   798  007F84  0E21               	movlw	33
+   799  007F86  6E89               	movwf	137,c	;volatile
+   800  007F88                     
+   801                           ;newmain.c: 113:         _delay((unsigned long)((1000)*(4000000/4000.0)));
+   802  007F88  0E06               	movlw	6
+   803  007F8A  6E04               	movwf	(??_main+1)^0,c
+   804  007F8C  0E13               	movlw	19
+   805  007F8E  6E03               	movwf	??_main^0,c
+   806  007F90  0EAE               	movlw	174
+   807  007F92                     u407:
+   808  007F92  2EE8               	decfsz	wreg,f,c
+   809  007F94  D7FE               	bra	u407
+   810  007F96  2E03               	decfsz	??_main^0,f,c
+   811  007F98  D7FC               	bra	u407
+   812  007F9A  2E04               	decfsz	(??_main+1)^0,f,c
+   813  007F9C  D7FA               	bra	u407
+   814                           
+   815                           ;newmain.c: 114:         LATA=0b0100000;
+   816  007F9E  0E20               	movlw	32
+   817  007FA0  6E89               	movwf	137,c	;volatile
+   818  007FA2                     
+   819                           ;newmain.c: 115:         _delay((unsigned long)((1000)*(4000000/4000.0)));
+   820  007FA2  0E06               	movlw	6
+   821  007FA4  6E04               	movwf	(??_main+1)^0,c
+   822  007FA6  0E13               	movlw	19
+   823  007FA8  6E03               	movwf	??_main^0,c
+   824  007FAA  0EAE               	movlw	174
+   825  007FAC                     u417:
+   826  007FAC  2EE8               	decfsz	wreg,f,c
+   827  007FAE  D7FE               	bra	u417
+   828  007FB0  2E03               	decfsz	??_main^0,f,c
+   829  007FB2  D7FC               	bra	u417
+   830  007FB4  2E04               	decfsz	(??_main+1)^0,f,c
+   831  007FB6  D7FA               	bra	u417
+   832  007FB8                     l829:
+   833                           
+   834                           ;newmain.c: 117:     if(valor==4)
+   835  007FB8  0E04               	movlw	4
+   836  007FBA  1801               	xorwf	_valor^0,w,c
+   837  007FBC  1002               	iorwf	(_valor+1)^0,w,c
+   838  007FBE  A4D8               	btfss	status,2,c
+   839  007FC0  EFE4  F03F         	goto	u51
+   840  007FC4  EFE6  F03F         	goto	u50
+   841  007FC8                     u51:
+   842  007FC8  EFFE  F03F         	goto	l35
+   843  007FCC                     u50:
+   844  007FCC                     
+   845                           ;newmain.c: 118:     {;newmain.c: 119:         PORTAbits.RA1=0;
+   846  007FCC  9280               	bcf	128,1,c	;volatile
+   847  007FCE                     
+   848                           ;newmain.c: 120:         _delay((unsigned long)((1000)*(4000000/4000.0)));
+   849  007FCE  0E06               	movlw	6
+   850  007FD0  6E04               	movwf	(??_main+1)^0,c
+   851  007FD2  0E13               	movlw	19
+   852  007FD4  6E03               	movwf	??_main^0,c
+   853  007FD6  0EAE               	movlw	174
+   854  007FD8                     u427:
+   855  007FD8  2EE8               	decfsz	wreg,f,c
+   856  007FDA  D7FE               	bra	u427
+   857  007FDC  2E03               	decfsz	??_main^0,f,c
+   858  007FDE  D7FC               	bra	u427
+   859  007FE0  2E04               	decfsz	(??_main+1)^0,f,c
+   860  007FE2  D7FA               	bra	u427
+   861  007FE4                     
+   862                           ;newmain.c: 121:         PORTAbits.RA1=1;
+   863  007FE4  8280               	bsf	128,1,c	;volatile
+   864                           
+   865                           ;newmain.c: 122:         _delay((unsigned long)((1000)*(4000000/4000.0)));
+   866  007FE6  0E06               	movlw	6
+   867  007FE8  6E04               	movwf	(??_main+1)^0,c
+   868  007FEA  0E13               	movlw	19
+   869  007FEC  6E03               	movwf	??_main^0,c
+   870  007FEE  0EAE               	movlw	174
+   871  007FF0                     u437:
+   872  007FF0  2EE8               	decfsz	wreg,f,c
+   873  007FF2  D7FE               	bra	u437
+   874  007FF4  2E03               	decfsz	??_main^0,f,c
+   875  007FF6  D7FC               	bra	u437
+   876  007FF8  2E04               	decfsz	(??_main+1)^0,f,c
+   877  007FFA  D7FA               	bra	u437
+   878  007FFC                     l35:
+   879  007FFC  EF00  F000         	goto	start
+   880  008000                     __end_of_main:
+   881                           	callstack 0
+   882                           
+   883 ;; *************** function _InitPort *****************
+   884 ;; Defined at:
+   885 ;;		line 14 in file "newmain.c"
+   886 ;; Parameters:    Size  Location     Type
+   887 ;;		None
+   888 ;; Auto vars:     Size  Location     Type
+   889 ;;		None
+   890 ;; Return value:  Size  Location     Type
+   891 ;;                  1    wreg      void 
+   892 ;; Registers used:
+   893 ;;		wreg, status,2
+   894 ;; Tracked objects:
+   895 ;;		On entry : 0/0
+   896 ;;		On exit  : 0/0
+   897 ;;		Unchanged: 0/0
+   898 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7
+   899 ;;      Params:         0       0       0       0       0       0       0       0       0
+   900 ;;      Locals:         0       0       0       0       0       0       0       0       0
+   901 ;;      Temps:          0       0       0       0       0       0       0       0       0
+   902 ;;      Totals:         0       0       0       0       0       0       0       0       0
+   903 ;;Total ram usage:        0 bytes
+   904 ;; Hardware stack levels used:    1
+   905 ;; This function calls:
+   906 ;;		Nothing
+   907 ;; This function is called by:
+   908 ;;		_main
+   909 ;; This function uses a non-reentrant model
+   910 ;;
+   911                           
+   912                           	psect	text1
+   913  007BAA                     __ptext1:
+   914                           	callstack 0
+   915  007BAA                     _InitPort:
+   916                           	callstack 30
+   917  007BAA                     
+   918                           ;newmain.c: 18:    ADCON1bits.PCFG = 0xFF;
+   919  007BAA  0E0F               	movlw	15
+   920  007BAC  12C1               	iorwf	193,f,c	;volatile
+   921                           
+   922                           ;newmain.c: 19:    TRISA = 0b000100;
+   923  007BAE  0E04               	movlw	4
+   924  007BB0  6E92               	movwf	146,c	;volatile
+   925                           
+   926                           ;newmain.c: 20:    TRISB=0;
+   927  007BB2  0E00               	movlw	0
+   928  007BB4  6E93               	movwf	147,c	;volatile
+   929  007BB6                     
+   930                           ;newmain.c: 21:    TRISCbits.RC1=0;
+   931  007BB6  9294               	bcf	148,1,c	;volatile
+   932                           
+   933                           ;newmain.c: 22:    TRISD=0;
+   934  007BB8  0E00               	movlw	0
+   935  007BBA  6E95               	movwf	149,c	;volatile
+   936  007BBC  0012               	return		;funcret
+   937  007BBE                     __end_of_InitPort:
+   938                           	callstack 0
+   939  0000                     
+   940                           	psect	rparam
+   941  0000                     
+   942                           	psect	idloc
+   943                           
+   944                           ;Config register IDLOC0 @ 0x200000
+   945                           ;	unspecified, using default values
+   946  200000                     	org	2097152
+   947  200000  FF                 	db	255
+   948                           
+   949                           ;Config register IDLOC1 @ 0x200001
+   950                           ;	unspecified, using default values
+   951  200001                     	org	2097153
+   952  200001  FF                 	db	255
+   953                           
+   954                           ;Config register IDLOC2 @ 0x200002
+   955                           ;	unspecified, using default values
+   956  200002                     	org	2097154
+   957  200002  FF                 	db	255
+   958                           
+   959                           ;Config register IDLOC3 @ 0x200003
+   960                           ;	unspecified, using default values
+   961  200003                     	org	2097155
+   962  200003  FF                 	db	255
+   963                           
+   964                           ;Config register IDLOC4 @ 0x200004
+   965                           ;	unspecified, using default values
+   966  200004                     	org	2097156
+   967  200004  FF                 	db	255
+   968                           
+   969                           ;Config register IDLOC5 @ 0x200005
+   970                           ;	unspecified, using default values
+   971  200005                     	org	2097157
+   972  200005  FF                 	db	255
+   973                           
+   974                           ;Config register IDLOC6 @ 0x200006
+   975                           ;	unspecified, using default values
+   976  200006                     	org	2097158
+   977  200006  FF                 	db	255
+   978                           
+   979                           ;Config register IDLOC7 @ 0x200007
+   980                           ;	unspecified, using default values
+   981  200007                     	org	2097159
+   982  200007  FF                 	db	255
+   983                           
+   984                           	psect	config
+   985                           
+   986                           ;Config register CONFIG1L @ 0x300000
+   987                           ;	PLL Prescaler Selection bits
+   988                           ;	PLLDIV = 1, No prescale (4 MHz oscillator input drives PLL directly)
+   989                           ;	System Clock Postscaler Selection bits
+   990                           ;	CPUDIV = OSC1_PLL2, [Primary Oscillator Src: /1][96 MHz PLL Src: /2]
+   991                           ;	USB Clock Selection bit (used in Full-Speed USB mode only; UCFG:FSEN = 1)
+   992                           ;	USBDIV = 1, USB clock source comes directly from the primary oscillator block with no 
+      +                          postscale
+   993  300000                     	org	3145728
+   994  300000  00                 	db	0
+   995                           
+   996                           ;Config register CONFIG1H @ 0x300001
+   997                           ;	Oscillator Selection bits
+   998                           ;	FOSC = EC_EC, EC oscillator, CLKO function on RA6 (EC)
+   999                           ;	Fail-Safe Clock Monitor Enable bit
+  1000                           ;	FCMEN = OFF, Fail-Safe Clock Monitor disabled
+  1001                           ;	Internal/External Oscillator Switchover bit
+  1002                           ;	IESO = OFF, Oscillator Switchover mode disabled
+  1003  300001                     	org	3145729
+  1004  300001  05                 	db	5
+  1005                           
+  1006                           ;Config register CONFIG2L @ 0x300002
+  1007                           ;	Power-up Timer Enable bit
+  1008                           ;	PWRT = ON, PWRT enabled
+  1009                           ;	Brown-out Reset Enable bits
+  1010                           ;	BOR = OFF, Brown-out Reset disabled in hardware and software
+  1011                           ;	Brown-out Reset Voltage bits
+  1012                           ;	BORV = 3, Minimum setting 2.05V
+  1013                           ;	USB Voltage Regulator Enable bit
+  1014                           ;	VREGEN = OFF, USB voltage regulator disabled
+  1015  300002                     	org	3145730
+  1016  300002  18                 	db	24
+  1017                           
+  1018                           ;Config register CONFIG2H @ 0x300003
+  1019                           ;	Watchdog Timer Enable bit
+  1020                           ;	WDT = OFF, WDT disabled (control is placed on the SWDTEN bit)
+  1021                           ;	Watchdog Timer Postscale Select bits
+  1022                           ;	WDTPS = 32768, 1:32768
+  1023  300003                     	org	3145731
+  1024  300003  1E                 	db	30
+  1025                           
+  1026                           ; Padding undefined space
+  1027  300004                     	org	3145732
+  1028  300004  FF                 	db	255
+  1029                           
+  1030                           ;Config register CONFIG3H @ 0x300005
+  1031                           ;	CCP2 MUX bit
+  1032                           ;	CCP2MX = ON, CCP2 input/output is multiplexed with RC1
+  1033                           ;	PORTB A/D Enable bit
+  1034                           ;	PBADEN = ON, PORTB<4:0> pins are configured as analog input channels on Reset
+  1035                           ;	Low-Power Timer 1 Oscillator Enable bit
+  1036                           ;	LPT1OSC = OFF, Timer1 configured for higher power operation
+  1037                           ;	MCLR Pin Enable bit
+  1038                           ;	MCLRE = ON, MCLR pin enabled; RE3 input pin disabled
+  1039  300005                     	org	3145733
+  1040  300005  83                 	db	131
+  1041                           
+  1042                           ;Config register CONFIG4L @ 0x300006
+  1043                           ;	Stack Full/Underflow Reset Enable bit
+  1044                           ;	STVREN = ON, Stack full/underflow will cause Reset
+  1045                           ;	Single-Supply ICSP Enable bit
+  1046                           ;	LVP = ON, Single-Supply ICSP enabled
+  1047                           ;	Dedicated In-Circuit Debug/Programming Port (ICPORT) Enable bit
+  1048                           ;	ICPRT = OFF, ICPORT disabled
+  1049                           ;	Extended Instruction Set Enable bit
+  1050                           ;	XINST = OFF, Instruction set extension and Indexed Addressing mode disabled (Legacy mo
+      +                          de)
+  1051                           ;	Background Debugger Enable bit
+  1052                           ;	DEBUG = 0x1, unprogrammed default
+  1053  300006                     	org	3145734
+  1054  300006  85                 	db	133
+  1055                           
+  1056                           ; Padding undefined space
+  1057  300007                     	org	3145735
+  1058  300007  FF                 	db	255
+  1059                           
+  1060                           ;Config register CONFIG5L @ 0x300008
+  1061                           ;	Code Protection bit
+  1062                           ;	CP0 = OFF, Block 0 (000800-001FFFh) is not code-protected
+  1063                           ;	Code Protection bit
+  1064                           ;	CP1 = OFF, Block 1 (002000-003FFFh) is not code-protected
+  1065                           ;	Code Protection bit
+  1066                           ;	CP2 = OFF, Block 2 (004000-005FFFh) is not code-protected
+  1067                           ;	Code Protection bit
+  1068                           ;	CP3 = OFF, Block 3 (006000-007FFFh) is not code-protected
+  1069  300008                     	org	3145736
+  1070  300008  0F                 	db	15
+  1071                           
+  1072                           ;Config register CONFIG5H @ 0x300009
+  1073                           ;	Boot Block Code Protection bit
+  1074                           ;	CPB = OFF, Boot block (000000-0007FFh) is not code-protected
+  1075                           ;	Data EEPROM Code Protection bit
+  1076                           ;	CPD = OFF, Data EEPROM is not code-protected
+  1077  300009                     	org	3145737
+  1078  300009  C0                 	db	192
+  1079                           
+  1080                           ;Config register CONFIG6L @ 0x30000A
+  1081                           ;	Write Protection bit
+  1082                           ;	WRT0 = OFF, Block 0 (000800-001FFFh) is not write-protected
+  1083                           ;	Write Protection bit
+  1084                           ;	WRT1 = OFF, Block 1 (002000-003FFFh) is not write-protected
+  1085                           ;	Write Protection bit
+  1086                           ;	WRT2 = OFF, Block 2 (004000-005FFFh) is not write-protected
+  1087                           ;	Write Protection bit
+  1088                           ;	WRT3 = OFF, Block 3 (006000-007FFFh) is not write-protected
+  1089  30000A                     	org	3145738
+  1090  30000A  0F                 	db	15
+  1091                           
+  1092                           ;Config register CONFIG6H @ 0x30000B
+  1093                           ;	Configuration Register Write Protection bit
+  1094                           ;	WRTC = OFF, Configuration registers (300000-3000FFh) are not write-protected
+  1095                           ;	Boot Block Write Protection bit
+  1096                           ;	WRTB = OFF, Boot block (000000-0007FFh) is not write-protected
+  1097                           ;	Data EEPROM Write Protection bit
+  1098                           ;	WRTD = OFF, Data EEPROM is not write-protected
+  1099  30000B                     	org	3145739
+  1100  30000B  E0                 	db	224
+  1101                           
+  1102                           ;Config register CONFIG7L @ 0x30000C
+  1103                           ;	Table Read Protection bit
+  1104                           ;	EBTR0 = OFF, Block 0 (000800-001FFFh) is not protected from table reads executed in ot
+      +                          her blocks
+  1105                           ;	Table Read Protection bit
+  1106                           ;	EBTR1 = OFF, Block 1 (002000-003FFFh) is not protected from table reads executed in ot
+      +                          her blocks
+  1107                           ;	Table Read Protection bit
+  1108                           ;	EBTR2 = OFF, Block 2 (004000-005FFFh) is not protected from table reads executed in ot
+      +                          her blocks
+  1109                           ;	Table Read Protection bit
+  1110                           ;	EBTR3 = OFF, Block 3 (006000-007FFFh) is not protected from table reads executed in ot
+      +                          her blocks
+  1111  30000C                     	org	3145740
+  1112  30000C  0F                 	db	15
+  1113                           
+  1114                           ;Config register CONFIG7H @ 0x30000D
+  1115                           ;	Boot Block Table Read Protection bit
+  1116                           ;	EBTRB = OFF, Boot block (000000-0007FFh) is not protected from table reads executed in
+      +                           other blocks
+  1117  30000D                     	org	3145741
+  1118  30000D  40                 	db	64
+  1119                           tosu	equ	0xFFF
+  1120                           tosh	equ	0xFFE
+  1121                           tosl	equ	0xFFD
+  1122                           stkptr	equ	0xFFC
+  1123                           pclatu	equ	0xFFB
+  1124                           pclath	equ	0xFFA
+  1125                           pcl	equ	0xFF9
+  1126                           tblptru	equ	0xFF8
+  1127                           tblptrh	equ	0xFF7
+  1128                           tblptrl	equ	0xFF6
+  1129                           tablat	equ	0xFF5
+  1130                           prodh	equ	0xFF4
+  1131                           prodl	equ	0xFF3
+  1132                           indf0	equ	0xFEF
+  1133                           postinc0	equ	0xFEE
+  1134                           postdec0	equ	0xFED
+  1135                           preinc0	equ	0xFEC
+  1136                           plusw0	equ	0xFEB
+  1137                           fsr0h	equ	0xFEA
+  1138                           fsr0l	equ	0xFE9
+  1139                           wreg	equ	0xFE8
+  1140                           indf1	equ	0xFE7
+  1141                           postinc1	equ	0xFE6
+  1142                           postdec1	equ	0xFE5
+  1143                           preinc1	equ	0xFE4
+  1144                           plusw1	equ	0xFE3
+  1145                           fsr1h	equ	0xFE2
+  1146                           fsr1l	equ	0xFE1
+  1147                           bsr	equ	0xFE0
+  1148                           indf2	equ	0xFDF
+  1149                           postinc2	equ	0xFDE
+  1150                           postdec2	equ	0xFDD
+  1151                           preinc2	equ	0xFDC
+  1152                           plusw2	equ	0xFDB
+  1153                           fsr2h	equ	0xFDA
+  1154                           fsr2l	equ	0xFD9
+  1155                           status	equ	0xFD8
+
+Data Sizes:
+    Strings     0
+    Constant    0
+    Data        0
+    BSS         2
+    Persistent  0
+    Stack       0
+
+Auto Spaces:
+    Space          Size  Autos    Used
+    COMRAM           95      2       4
+    BANK0           160      0       0
+    BANK1           256      0       0
+    BANK2           256      0       0
+    BANK3           256      0       0
+    BANK4           256      0       0
+    BANK5           256      0       0
+    BANK6           256      0       0
+    BANK7           256      0       0
+
+Pointer List with Targets:
+
+    None.
+
+Critical Paths under _main in COMRAM
+
+    None.
+
+Critical Paths under _main in BANK0
+
+    None.
+
+Critical Paths under _main in BANK1
+
+    None.
+
+Critical Paths under _main in BANK2
+
+    None.
+
+Critical Paths under _main in BANK3
+
+    None.
+
+Critical Paths under _main in BANK4
+
+    None.
+
+Critical Paths under _main in BANK5
+
+    None.
+
+Critical Paths under _main in BANK6
+
+    None.
+
+Critical Paths under _main in BANK7
+
+    None.
+
+Call Graph Tables:
+
+ ---------------------------------------------------------------------------------
+ (Depth) Function   	        Calls       Base Space   Used Autos Params    Refs
+ ---------------------------------------------------------------------------------
+ (0) _main                                                 2     2      0       0
+                                              0 COMRAM     2     2      0
+                           _InitPort
+ ---------------------------------------------------------------------------------
+ (1) _InitPort                                             0     0      0       0
+ ---------------------------------------------------------------------------------
+ Estimated maximum stack depth 1
+ ---------------------------------------------------------------------------------
+
+ Call Graph Graphs:
+
+ _main (ROOT)
+   _InitPort
+
+ Address spaces:
+Name               Size   Autos  Total    Cost      Usage
+BIGRAM             7FF      0       0      21        0.0%
+EEDATA             100      0       0       0        0.0%
+BITBANK7           100      0       0      18        0.0%
+BANK7              100      0       0      19        0.0%
+BITBANK6           100      0       0      16        0.0%
+BANK6              100      0       0      17        0.0%
+BITBANK5           100      0       0      14        0.0%
+BANK5              100      0       0      15        0.0%
+BITBANK4           100      0       0      12        0.0%
+BANK4              100      0       0      13        0.0%
+BITBANK3           100      0       0      10        0.0%
+BANK3              100      0       0      11        0.0%
+BITBANK2           100      0       0       8        0.0%
+BANK2              100      0       0       9        0.0%
+BITBANK1           100      0       0       6        0.0%
+BANK1              100      0       0       7        0.0%
+BITBANK0            A0      0       0       4        0.0%
+BANK0               A0      0       0       5        0.0%
+BITCOMRAM           5F      0       0       0        0.0%
+COMRAM              5F      2       4       1        4.2%
+BITSFR               0      0       0     200        0.0%
+SFR                  0      0       0     200        0.0%
+STACK                0      0       0       2        0.0%
+NULL                 0      0       0       0        0.0%
+ABS                  0      0       4      20        0.0%
+DATA                 0      0       4       3        0.0%
+CODE                 0      0       0       0        0.0%
+
+
+Microchip Technology PIC18 Macro Assembler V2.31 build 20201012212115 
+Symbol Table                                                                                   Mon Mar 01 21:11:12 2021
+
+                     l25 7BBC                       l35 7FFC                       u10 7BD4  
+                     u11 7BD0                       u20 7BEA                       u21 7BE6  
+                     u30 7C66                       u31 7C62                       u40 7E18  
+                     u41 7E14                       u50 7FCC                       u51 7FC8  
+                     u67 7BF8                       u77 7C12                       u87 7C2C  
+                     u97 7C46                      l711 7BAA                      l713 7BB6  
+                    l801 7E9E                      l721 7BD4                      l811 7F06  
+                    l803 7EB8                      l731 7C1E                      l723 7BD8  
+                    l715 7BBE                      l821 7F6A                      l813 7F1C  
+                    l805 7ECE                      l741 7C6A                      l733 7C22  
+                    l725 7BEA                      l717 7BC2                      l831 7FCC  
+                    l823 7F84                      l815 7F36                      l807 7EE8  
+                    l751 7CCE                      l743 7C80                      l735 7C3C  
+                    l727 7BEE                      l719 7BC6                      l833 7FCE  
+                    l825 7F88                      l817 7F3A                      l809 7EEC  
+                    l761 7D36                      l753 7CE8                      l745 7C9A  
+                    l729 7C04                      l737 7C52                      l835 7FE4  
+                    l827 7FA2                      l819 7F54                      l771 7D9C  
+                    l763 7D4E                      l755 7CEC                      l747 7C9E  
+                    l739 7C66                      l829 7FB8                      l781 7DEE  
+                    l773 7DA0                      l765 7D52                      l757 7D06  
+                    l749 7CB8                      l791 7E4C                      l775 7DBA  
+                    l767 7D6C                      l759 7D1C                      l783 7E04  
+                    l793 7E50                      l785 7E18                      l777 7DD0  
+                    l769 7D82                      l795 7E6A                      l787 7E1C  
+                    l779 7DEA                      l797 7E80                      l789 7E32  
+                    l799 7E9A                      u107 7C74                      u117 7C8E  
+                    u207 7D76                      u127 7CA8                      u217 7D90  
+                    u137 7CC2                      u307 7E8E                      u227 7DAA  
+                    u147 7CDC                      u317 7EA8                      u237 7DC4  
+                    u157 7CF6                      u407 7F92                      u327 7EC2  
+                    u247 7DDE                      u167 7D10                      u417 7FAC  
+                    u337 7EDC                      u257 7DF8                      u177 7D2A  
+                    u427 7FD8                      u347 7EF6                      u267 7E26  
+                    u187 7D42                      u437 7FF0                      u357 7F10  
+                    u277 7E40                      u197 7D5C                      u367 7F2A  
+                    u287 7E5A                      u377 7F44                      u297 7E74  
+                    u387 7F5E                      u397 7F78                      wreg 000FE8  
+                   _LATA 000F89                     _LATB 000F8A                     _LATD 000F8C  
+                   _main 7BBE                     start 0000             ___param_bank 000000  
+                  ?_main 0003                    _TRISA 000F92                    _TRISB 000F93  
+                  _TRISD 000F95                    _valor 0001                    status 000FD8  
+        __initialization 7BA0             __end_of_main 8000         __end_of_InitPort 7BBE  
+                 ??_main 0003            __activetblptr 000000               __accesstop 0060  
+__end_of__initialization 7BA4            ___rparam_used 000001           __pcstackCOMRAM 0003  
+              ?_InitPort 0003               ??_InitPort 0003                  __Hparam 0000  
+                __Lparam 0000                  __pcinit 7BA0                  __ramtop 0800  
+                __ptext0 7BBE                  __ptext1 7BAA     end_of_initialization 7BA4  
+              _PORTAbits 000F80                _TRISCbits 000F94      start_initialization 7BA0  
+      __size_of_InitPort 0014              __pbssCOMRAM 0001               _ADCON1bits 000FC1  
+               _InitPort 7BAA                 __Hrparam 0000                 __Lrparam 0000  
+          __size_of_main 0442  
